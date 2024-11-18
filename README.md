@@ -28,5 +28,7 @@
    ```
 默认服务器运行在 http://127.0.0.1:2233
 
+---
+
 ## 开源协议
 本项目采用 [Affero General Public License (AGPL)](https://www.gnu.org/licenses/agpl-3.0.html) 开源
