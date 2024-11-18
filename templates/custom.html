@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义 DX Pass</title>
+    <link rel="stylesheet" href="static/ui.css">
+    <style>
+        .settings {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .date-inputs {
+            display: flex;
+            gap: 5px;
+        }
+        .date-inputs input {
+            width: 108.33333333333333333333333333334px;
+            text-align: center;
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="settings">
+        <button id="settings-button">设置</button>
+    </div>
+
+    <div class="form-group">
+        <div class="label">DX Pass 过期日期</div>
+        <div class="date-inputs">
+            <input type="text" id="year-input" placeholder="年" maxlength="4">
+            <input type="text" id="month-input" placeholder="月" maxlength="2">
+            <input type="text" id="day-input" placeholder="日" maxlength="2">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="label">二维码内容</div>
+        <input type="text" id="maid-input" placeholder="请输入二维码的值">
+    </div>
+
+    <button id="submit-button">提交</button>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('submit-button').onclick = function() {
+            const year = document.getElementById('year-input').value.trim();
+            const month = document.getElementById('month-input').value.trim();
+            const day = document.getElementById('day-input').value.trim();
+            const maid = document.getElementById('maid-input').value.trim();
+
+            // 验证输入是否完整
+            if (!year || !month || !day) {
+                document.getElementById('message').innerText = '请输入完整的过期日期 (年、月、日)';
+                return;
+            }
+
+            if (!maid) {
+                document.getElementById('message').innerText = '请输入 MAID 的值';
+                return;
+            }
+
+            // 验证是否为有效的日期
+            const parsedYear = parseInt(year, 10);
+            const parsedMonth = parseInt(month, 10);
+            const parsedDay = parseInt(day, 10);
+
+            if (
+                isNaN(parsedYear) || parsedYear < 1 ||
+                isNaN(parsedMonth) || parsedMonth < 1 || parsedMonth > 12 ||
+                isNaN(parsedDay) || parsedDay < 1 || parsedDay > 31
+            ) {
+                document.getElementById('message').innerText = '无效的日期，请检查年、月、日是否正确';
+                return;
+            }
+
+            // 检查日期是否存在
+            const date = new Date(parsedYear, parsedMonth - 1, parsedDay);
+            if (
+                date.getFullYear() !== parsedYear ||
+                date.getMonth() + 1 !== parsedMonth ||
+                date.getDate() !== parsedDay
+            ) {
+                document.getElementById('message').innerText = '日期无效，请重新输入';
+                return;
+            }
+
+            // 转换日期为时间戳
+            const timestamp = Math.floor(date.getTime() / 1000);
+
+            // 获取当前时间并设置 Cookie 有效期为一天
+            const expiryDate = new Date();
+            expiryDate.setTime(expiryDate.getTime() + 24 * 60 * 60 * 1000);
+
+            // 存储 Cookie
+            document.cookie = `timestamp=${timestamp}; expires=${expiryDate.toUTCString()}; path=/`;
+            document.cookie = `MAID=${maid}; expires=${expiryDate.toUTCString()}; path=/`;
+
+            // 跳转到 DX_Pass 页面
+            window.location.href = '/DX_Pass_custom';
+        };
+
+        // 设置按钮的点击事件，跳转至 /setting
+        document.getElementById('settings-button').onclick = function() {
+            window.location.href = '/setting';
+        };
+    </script>
+</body>
+</html>

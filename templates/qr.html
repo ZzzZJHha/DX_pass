@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码 DX Pass</title>
+    <link rel="stylesheet" href="static/ui.css">
+    <style>
+        .settings {
+            position: absolute; /* 绝对定位 */
+            top: 20px; /* 距离顶部的距离 */
+            right: 20px; /* 距离右边的距离 */
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="settings">
+        <button id="settings-button">设置</button>
+    </div>
+    <input type="text" id="url-input" placeholder="请输入 wq.sys-allnet.cn URL">
+    <button id="submit-button">提交</button>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('submit-button').onclick = function() {
+            const url = document.getElementById('url-input').value;
+            if (url) {
+                // 提取 l 参数的时间戳
+                const urlParams = new URLSearchParams(url.split('?')[1]);
+                const lParam = urlParams.get('l');
+                if (lParam) {
+                    const timestamp = parseInt(lParam);
+                    const currentTime = Math.floor(Date.now() / 1000); // 当前时间戳
+
+                    // 判断时间是否过期
+                    if (timestamp > currentTime) {
+                        // 将时间戳存储为 Cookie
+                        document.cookie = `timestamp=${timestamp}; path=/`;
+
+                        // 提取 MAID 并处理
+                        let maid = url.split('/').pop().split('?')[0]; // 获取 URL 的最后一部分
+                        maid = maid.replace(/^MAID/, '').replace(/\.html.*$/, ''); // 去掉前面的 MAID 和 .html 及其后的部分
+                        document.cookie = `MAID=SGWCMAID${maid}; path=/`; // 存储所需的 MAID
+                        window.location.href = '/DX_Pass'; // 跳转到 DX_Pass 页面
+                    } else {
+                        document.getElementById('message').innerText = '二维码药效过咯，请重新输入有效的 URL 哦~';
+                    }
+                } else {
+                    document.getElementById('message').innerText = '啊啊啊！你当我傻呀，你给我喂的是什么 `(*>﹏<*)′';
+                }
+            } else {
+                document.getElementById('message').innerText = '请输入 wq.sys-allnet.cn URL';
+            }
+        };
+
+        // 设置按钮的点击事件，跳转至 /setting
+        document.getElementById('settings-button').onclick = function() {
+            window.location.href = '/setting'; // 跳转到设置页面
+        };
+    </script>
+</body>
+</html>

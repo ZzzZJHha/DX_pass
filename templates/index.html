@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>DX Pass</title>
+        <style>
+            @font-face {
+                font-family: "LexendExtraLight";
+                src: url("static/Lexend-ExtraLight.ttf") format("truetype");
+            }
+
+            body {
+                font-family: "LexendExtraLight", sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                text-align: center;
+                background-color: #f4f4f4;
+            }
+
+            .container {
+                text-align: center;
+                max-width: 90%; /* 防止大屏幕设备中元素过于宽 */
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 36px;
+                color: #39c5bb;
+            }
+
+            p {
+                font-size: 18px;
+                line-height: 1.6;
+            }
+
+            .button {
+                display: inline-block;
+                padding: 12px 24px;
+                font-size: 18px;
+                color: #ffffff;
+                background-color: #39c5bb;
+                border: none;
+                border-radius: 8px;
+                text-decoration: none;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                margin: 10px;
+            }
+
+            .button:hover {
+                background-color: #32a59d;
+            }
+
+            .footer {
+                width: 100%;
+                position: fixed;
+                bottom: 0;
+            }
+
+            /* 适应小屏设备 */
+            @media (max-width: 600px) {
+                h1 {
+                    font-size: 28px;
+                }
+
+                p {
+                    font-size: 16px;
+                }
+
+                .button,
+                .settings-button {
+                    padding: 10px 20px;
+                    font-size: 16px;
+                }
+            }
+        </style>
+        <link
+            rel="icon"
+            href="{{ url_for('static', filename='favicon.ico') }}"
+            type="image/x-icon"
+        />
+    </head>
+    <body>
+        <div class="container">
+            <h1>DX Pass 生成</h1>
+            <p>选择一个选项来开始</p>
+
+            <!-- 按钮：二维码生成 -->
+            <a href="/qr" class="button">二维码生成</a>
+
+            <!-- 按钮：自定义生成 -->
+            <a href="/custom" class="button">自定义生成</a>
+
+            <br /><br />
+
+            <!-- 设置按钮 -->
+            <a href="/setting" class="button">设置</a>
+            <a href="/info" class="button">关于</a>
+        </div>
+        <div class="footer">
+            <p>
+                Designed by <a href="https://github.com/ZzzZJHha">ZzzZJHha</a>
+            </p>
+        </div>
+    </body>
+</html>

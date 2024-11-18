@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie 错误</title>
+    <style>
+        @font-face {
+            font-family: 'LexendExtraLight';
+            src: url('static/Lexend-ExtraLight.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'LexendExtraLight', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 使用视口高度让内容垂直居中 */
+            margin: 0;
+            text-align: center;
+            background-color: #f4f4f4; /* 可选背景色 */
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #39C5BB; /* 按键颜色 */
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 18px;
+            color: #FFFFFF;
+            background-color: #39C5BB; /* 按键颜色 */
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px; /* 按钮间距 */
+        }
+
+        .button:hover {
+            background-color: #32A59D; /* Hover 颜色 */
+        }
+    </style>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <h1>404</h1>
+        <p>👁️👁️你在干什么👁️👁️</p>
+        <p>👁️👁️我问你在干什么👁️👁️</p>
+        <p>你在</p>
+        <p>👁️👁️干什么👁️👁️</p>
+        <p>👁️👁️我一直都在看着你👁️👁️</p>
+        <a href="/" class="button">😡滚回首页😡</a>
+    </div>
+</body>
+</html>

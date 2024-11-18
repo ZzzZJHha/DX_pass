@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <div id="nickname">获取中...</div>
+        <div id="rating">获取中...</div>
+        <img id="ratingImage" src="" alt="DX Rating Image" style="display: none;" />
+        <!-- 脚本放在 body 末尾，DOM 已经解析完毕，可以直接调用 initialize 函数 -->
+        <script>
+            let rating = "获取中..."; // 定义 rating 变量
+
+            async function getPlayerData(username) {
+                const url =
+                    "https://www.diving-fish.com/api/maimaidxprober/query/player";
+
+                const data = {
+                    b50: true,
+                    username: username,
+                };
+
+                try {
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    });
+
+                    if (response.ok) {
+                        const result = await response.json();
+                        rating = result.rating || "N/A"; // 更新 rating 变量
+                        const nickname = result.nickname || "N/A";
+                        document.getElementById("rating").textContent = rating;
+                        document.getElementById("nickname").textContent = nickname;
+                        updateRatingImage(rating); // 更新图片
+                    } else {
+                        console.error("获取玩家数据失败");
+                        document.getElementById("rating").textContent = "Error";
+                        document.getElementById("nickname").textContent = "Error";
+                    }
+                } catch (error) {
+                    console.error("错误:", error);
+                    document.getElementById("rating").textContent = "发生错误";
+                    document.getElementById("nickname").textContent = "发生错误";
+                }
+            }
+
+            function getCookie(name) {
+                const match = document.cookie.match(
+                    new RegExp("(^| )" + name + "=([^;]+)")
+                );
+                return match ? match[2] : null;
+            }
+
+            function updateRatingImage(rating) {
+                let imageIndex;
+                if (rating < 1000) imageIndex = 1;
+                else if (rating < 2000) imageIndex = 2;
+                else if (rating < 4000) imageIndex = 3;
+                else if (rating < 7000) imageIndex = 4;
+                else if (rating < 10000) imageIndex = 5;
+                else if (rating < 12000) imageIndex = 6;
+                else if (rating < 13000) imageIndex = 7;
+                else if (rating < 14000) imageIndex = 8;
+                else if (rating < 14500) imageIndex = 9;
+                else if (rating < 15000) imageIndex = 10;
+                else imageIndex = 11;
+
+                const ratingImage = document.getElementById("ratingImage");
+                ratingImage.src = `static/rating/${imageIndex}.png`;
+                ratingImage.style.display = "block"; // 显示图片
+            }
+
+            function initialize() {
+                const dfUsernameSwitch = getCookie("df_username_switch");
+
+                if (dfUsernameSwitch === "0") {
+                    const name = getCookie("name");
+                    rating = getCookie("rating") || "未知"; // 使用 cookie 中的 rating
+                    document.getElementById("nickname").textContent = name || "未知";
+                    document.getElementById("rating").textContent = rating;
+                    updateRatingImage(rating); // 更新图片
+                } else if (dfUsernameSwitch === "1") {
+                    const dfUsername = getCookie("df_username");
+                    if (dfUsername) {
+                        getPlayerData(dfUsername);
+                    } else {
+                        document.getElementById("nickname").textContent = "Error";
+                        document.getElementById("rating").textContent = "Error";
+                    }
+                } else {
+                    document.getElementById("nickname").textContent =
+                        "未设置df_username_switch";
+                    document.getElementById("rating").textContent =
+                        "未设置df_username_switch";
+                }
+            };
+            initialize();
+        </script>
+    </body>
+</html>

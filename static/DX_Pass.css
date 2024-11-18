@@ -1,0 +1,124 @@
+@font-face {
+    font-family: "FOT-seurat_Pro"; /* 定义字体名称 */
+    src: url("FOT-seurat_Pro.otf") format("truetype"); /* 指定字体文件来源 */
+}
+
+* {
+    box-sizing: border-box; /* 使所有元素的宽高计算包括 padding 和 border */
+    margin: 0; /* 去掉默认外边距 */
+    padding: 0; /* 去掉默认内边距 */
+    font-family: "FOT-seurat_Pro", sans-serif; /* 全局字体 */
+}
+
+#DX_Pass {
+    position: relative;
+    width: 770px; /* 原始宽度 */
+    height: 1054px; /* 原始高度 */
+    margin: 0 auto;
+}
+
+#DX_Pass_hide {
+    display: none;
+}
+
+#DX_Pass_img {
+    position: absolute; /* 让图片容器使用绝对定位 */
+    width: 100%; /* 容器宽度100% */
+    height: 100%; /* 容器高度100% */
+    height: auto; /* 保持比例 */
+}
+
+#DX_Pass_img img {
+    position: absolute; /* 所有图片绝对定位 */
+    width: 100%; /* 使图片宽度自适应容器 */
+    height: auto; /* 保持图片比例 */
+}
+
+#DX_Pass_img img:first-child {
+    z-index: 1; /* bud.png 在底层 */
+}
+
+#DX_Pass_img img:nth-child(2) {
+    z-index: 2; /* gold.png 在中间 */
+}
+
+#DX_Pass_img img:nth-child(3) {
+    z-index: 3; /* gold.png 在中间 */
+}
+
+#DX_Pass_img img:nth-child(4) {
+    z-index: 4; /* background.png 在中间 */
+}
+
+#ratingImage {
+    position: absolute;
+    z-index: 5; /* rating 在最上层 */
+}
+
+/* 设置其他内容的位置，例如 formatted-time */
+#formatted-time,
+#qrcode,
+#friend_code,
+#friend_name,
+#card_info,
+#nickname,
+#rating {
+    position: absolute;
+    z-index: 6; /* 这些内容位于所有图片的上层 */
+}
+
+#qrcode {
+    top: 873px;
+    left: 586px;
+}
+
+#formatted-time {
+    top: 828px;
+    left: 152px;
+    color: #8d6b19;
+    font-size: 21px;
+}
+
+#friend_name {
+    top: 820px;
+    left: 130px;
+    color: #8d6b19;
+    transform: translate(-50%, -50%);
+    font-size: 21px;
+}
+
+#friend_code {
+    top: 165px;
+    left: 632px;
+    font-size: 22px;
+    transform: translate(-50%, -50%);
+}
+
+#card_info {
+    top: 1015px;
+    left: 385px;
+    display: flex;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    color: #c0c0c0;
+}
+
+#card_info span {
+    margin-left: 20px; /* 在 [maimaiDX] 前增加额外的间隔 */
+}
+
+#nickname {
+    top: 103px;
+    left: 476px;
+    font-size: 26px;
+    letter-spacing: 5px;
+}
+
+#rating {
+    top: 101px;
+    left: 717px;
+    font-size: 34px;
+    letter-spacing: 6px;
+    transform: translate(-100%, -100%);
+    color: #F6D828;
+}

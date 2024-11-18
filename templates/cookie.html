@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie 内容</title>
+    <link rel="stylesheet" href="static/ui.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <div class="cookie-container">
+        <h2>Cookie 内容</h2>
+        <div id="cookieContent"></div>
+    </div>
+
+    <script>
+        function displayCookies() {
+            const cookieContent = document.getElementById('cookieContent');
+            const cookies = document.cookie.split('; ');
+            cookieContent.innerHTML = ''; // 清空之前的内容
+            
+            if (cookies.length === 1 && cookies[0] === "") {
+                cookieContent.innerHTML = '<div class="cookie">没有可显示的 Cookie</div>';
+            } else {
+                cookies.forEach(cookie => {
+                    const [name, value] = cookie.split('=');
+                    const cookieDiv = document.createElement('div');
+                    cookieDiv.className = 'cookie';
+                    cookieDiv.textContent = `${name}: ${decodeURIComponent(value)}`;
+                    cookieContent.appendChild(cookieDiv);
+                });
+            }
+        }
+
+        window.onload = displayCookies; // 页面加载时显示 Cookie
+    </script>
+</body>
+</html>

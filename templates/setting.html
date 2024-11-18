@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>设置</title>
+        <link rel="stylesheet" href="static/ui.css" />
+        <style>
+            body {
+                height: 100%; /* 使页面填满全屏 */
+            }
+        </style>
+        <link
+            rel="icon"
+            href="{{ url_for('static', filename='favicon.ico') }}"
+            type="image/x-icon"
+        />
+    </head>
+    <body>
+        <!-- 水鱼Token -->
+        <div class="switch-container">
+            <div class="label">水鱼获取</div>
+            <label class="switch">
+                <input
+                    type="checkbox"
+                    id="df_username_switch"
+                    onchange="toggleInput()"
+                />
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div class="input-container" id="inputContainer">
+            <div class="input-field">
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="请输入名字"
+                    maxlength="8"
+                    oninput="updateCookie('name', this.value)"
+                />
+            </div>
+            <div class="input-field">
+                <input
+                    type="text"
+                    id="rating"
+                    placeholder="请输入 Rating"
+                    maxlength="5"
+                    oninput="this.value = this.value.replace(/[^0-9\-]/g, ''); updateCookie('rating', this.value)"
+                />
+            </div>
+        </div>
+
+        <div
+            class="input-container"
+            id="dfTokenContainer"
+            style="display: none"
+        >
+            <input
+                type="text"
+                id="df_username"
+                placeholder="请输入水鱼用户名"
+                oninput="updateCookie('df_username', this.value)"
+            />
+        </div>
+
+        <!-- 选择伙伴 -->
+        <div class="character-selection">
+            <div class="label">选择伙伴</div>
+            <div class="select-container">
+                <select id="friend-select" onchange="updateFriendCookie()">
+                    <option value="" disabled selected>请选择伙伴</option>
+                    <option value="bud/UI_CardChara_400101">
+                        乙姫（ばでぃーず）
+                    </option>
+                    <option value="bud/UI_CardChara_400102">
+                        ラズ（ばでぃーず）
+                    </option>
+                    <option value="bud/UI_CardChara_400103">
+                        sdダンディ・ダン
+                    </option>
+                    <option value="bud/UI_CardChara_400104">sd亀</option>
+                    <option value="bud/UI_CardChara_400105">sd鯛</option>
+                    <option value="bud/UI_CardChara_400106">sd光吉</option>
+                    <option value="bud/UI_CardChara_400107">
+                        しゃま（party☆people☆princess）
+                    </option>
+                    <option value="bud/UI_CardChara_400108">
+                        みるく（party☆people☆princess）
+                    </option>
+                    <option value="bud/UI_CardChara_400201">
+                        プロトタイプi
+                    </option>
+                    <option value="bud/UI_CardChara_400202">ケファ</option>
+                    <option value="bud/UI_CardChara_400203">バルトルメ</option>
+                    <option value="bud/UI_CardChara_400204">マトフェイ</option>
+                    <option value="bud/UI_CardChara_400205">黒姫</option>
+                    <option value="bud/UI_CardChara_400301">ノア</option>
+                    <option value="bud/UI_CardChara_400302">ソウ</option>
+                    <option value="bud/UI_CardChara_400303">トキヤ</option>
+                    <option value="bud/UI_CardChara_400304">ナノハ</option>
+                    <option value="bud/UI_CardChara_400305">ユウキ</option>
+                    <option value="bud/UI_CardChara_400401">リズ</option>
+                    <option value="bud/UI_CardChara_400402">
+                        フルーンシュピラー
+                    </option>
+                    <option value="bud/UI_CardChara_400403">
+                        シュヴァルツローゼ
+                    </option>
+                    <option value="bud/UI_CardChara_400404">ヘルブラオ</option>
+                    <option value="bud/UI_CardChara_400405">
+                        アシッド（幼少期）
+                    </option>
+                    <option value="bud/UI_CardChara_400601">フィッツ公</option>
+                    <option value="bud/UI_CardChara_400602">マティルダ</option>
+                    <option value="bud/UI_CardChara_400603">クリーノス</option>
+                    <option value="bud/UI_CardChara_400604">
+                        クリーノス（天使）
+                    </option>
+                    <option value="bud/UI_CardChara_400605">
+                        リッツ（悪魔）
+                    </option>
+                    <option value="bud+/UI_CardChara_450101">
+                        乙姫（ばでぃーずぷらす）
+                    </option>
+                    <option value="bud+/UI_CardChara_450102">
+                        ラズ（ばでぃーずぷらす）
+                    </option>
+                    <option value="bud+/UI_CardChara_450103">
+                        乙姫（のじゃロリック）
+                    </option>
+                    <option value="bud+/UI_CardChara_450104">
+                        ラズ（のじゃロリック）
+                    </option>
+                    <option value="bud+/UI_CardChara_450201">黒楼十夜子</option>
+                    <option value="bud+/UI_CardChara_450202">
+                        黒姫（プロトタイプ）
+                    </option>
+                    <option value="bud+/UI_CardChara_450203">黒楼哉輝</option>
+                    <option value="bud+/UI_CardChara_450204">
+                        紅丸（プロトタイプ）
+                    </option>
+                    <option value="bud+/UI_CardChara_450301">エムブラ</option>
+                    <option value="bud+/UI_CardChara_450302">クエレブレ</option>
+                    <option value="bud+/UI_CardChara_450303">シグルズ</option>
+                    <option value="bud+/UI_CardChara_450304">アスク</option>
+                    <option value="bud+/UI_CardChara_450401">コカビエル</option>
+                    <option value="bud+/UI_CardChara_450402">アルマ</option>
+                    <option value="bud+/UI_CardChara_450403">アルオス</option>
+                    <option value="bud+/UI_CardChara_450404">セレプリス</option>
+                    <option value="bud+/UI_CardChara_450405">ルシファー</option>
+                    <option value="dx/UI_CardChara_000101">でらっくま</option>
+                    <option value="dx/UI_CardChara_000102">
+                        いえてぃっくま
+                    </option>
+                    <option value="dx/UI_CardChara_000103">りすっくま</option>
+                    <option value="dx/UI_CardChara_000104">ぱんだっくま</option>
+                    <option value="dx/UI_CardChara_000105">
+                        みつよしっくま
+                    </option>
+                    <option value="dx/UI_CardChara_000201">水野舞衣</option>
+                    <option value="dx/UI_CardChara_000202">青沼優</option>
+                    <option value="dx/UI_CardChara_000203">葵巴</option>
+                    <option value="dx/UI_CardChara_000204">花田美空</option>
+                    <option value="dx/UI_CardChara_000205">浅葱光一</option>
+                    <option value="dx/UI_CardChara_000301">ラズ</option>
+                    <option value="dx/UI_CardChara_000302">ソルト</option>
+                    <option value="dx/UI_CardChara_000303">シフォン</option>
+                    <option value="dx/UI_CardChara_000304">乙姫</option>
+                    <option value="dx/UI_CardChara_000305">しゃま</option>
+                    <option value="dx/UI_CardChara_000306">みるく</option>
+                    <option value="dx/UI_CardChara_000392">たぬっくま</option>
+                    <option value="dx/UI_CardChara_000393">ひげっくま</option>
+                    <option value="dx/UI_CardChara_000394">おねむっくま</option>
+                    <option value="dx/UI_CardChara_000395">めがねっくま</option>
+                    <option value="dx/UI_CardChara_000401">sam_rai</option>
+                    <option value="dx/UI_CardChara_000402">ben_kei</option>
+                    <option value="dx/UI_CardChara_000403">sin_ba</option>
+                    <option value="dx/UI_CardChara_000404">to_ki</option>
+                    <option value="dx/UI_CardChara_000405">黒姫</option>
+                    <option value="dx+/UI_CardChara_000501">バハムート</option>
+                    <option value="dx+/UI_CardChara_000502">
+                        ニーズヘッグ
+                    </option>
+                    <option value="dx+/UI_CardChara_000503">
+                        ファフニール
+                    </option>
+                    <option value="dx+/UI_CardChara_000504">ラタトスク</option>
+                    <option value="dx+/UI_CardChara_000505">
+                        フレーズベルグ
+                    </option>
+                    <option value="dx+/UI_CardChara_000601">百合咲ミカ</option>
+                    <option value="dx+/UI_CardChara_000602">
+                        白銅寺アズリ
+                    </option>
+                    <option value="dx+/UI_CardChara_000603">
+                        兎花宮イオフィ
+                    </option>
+                    <option value="dx+/UI_CardChara_000604">白王院ラグ</option>
+                    <option value="dx+/UI_CardChara_000605">兎花宮サラ</option>
+                    <option value="dx+/UI_CardChara_000701">アウル</option>
+                    <option value="dx+/UI_CardChara_000702">リッツ</option>
+                    <option value="dx+/UI_CardChara_000703">ニック</option>
+                    <option value="dx+/UI_CardChara_000704">エリー</option>
+                    <option value="dx+/UI_CardChara_000705">
+                        ヒュド・ルー
+                    </option>
+                    <option value="dx+/UI_CardChara_000706">クレメンス</option>
+                    <option value="dx+/UI_CardChara_000707">ラルフ</option>
+                    <option value="dx+/UI_CardChara_000708">バイロン</option>
+                    <option value="dx+/UI_CardChara_000709">マスティマ</option>
+                    <option value="dx+/UI_CardChara_050101">
+                        あおはるっくま
+                    </option>
+                    <option value="dx+/UI_CardChara_050102">
+                        にんじゃっくま
+                    </option>
+                    <option value="dx+/UI_CardChara_050103">
+                        どらごっくま
+                    </option>
+                    <option value="dx+/UI_CardChara_050104">
+                        えんじぇっくま
+                    </option>
+                    <option value="dx+/UI_CardChara_050105">
+                        くろばらっくま
+                    </option>
+                    <option value="dx+/UI_CardChara_050201">ピリポ</option>
+                    <option value="dx+/UI_CardChara_050202">ケファ</option>
+                    <option value="dx+/UI_CardChara_050203">バルトルメ</option>
+                    <option value="dx+/UI_CardChara_050204">
+                        アンドレアス
+                    </option>
+                    <option value="dx+/UI_CardChara_050205">イーシュ</option>
+                    <option value="dx+/UI_CardChara_050401">萌木ゆずか</option>
+                    <option value="dx+/UI_CardChara_050402">萌木ほのか</option>
+                    <option value="dx+/UI_CardChara_050403">萌木はるか</option>
+                    <option value="dx+/UI_CardChara_050404">萌木いよか</option>
+                    <option value="dx+/UI_CardChara_050405">萌木せとか</option>
+                    <option value="dx+/UI_CardChara_050601">
+                        ブリュンヒルデ
+                    </option>
+                    <option value="dx+/UI_CardChara_050602">ジグニュー</option>
+                    <option value="dx+/UI_CardChara_050603">
+                        ジークルーネ
+                    </option>
+                    <option value="dx+/UI_CardChara_050604">
+                        グリムゲルデ
+                    </option>
+                    <option value="dx+/UI_CardChara_050605">
+                        シュヴェルトライテ
+                    </option>
+                    <option value="dx+/UI_CardChara_050606">
+                        ヴァルトラウテ
+                    </option>
+                    <option value="dx+/UI_CardChara_050607">オーディン</option>
+                    <option value="dx+/UI_CardChara_050701">
+                        maimaiちゃん
+                    </option>
+                    <option value="dx+/UI_CardChara_050702">はっぴー</option>
+                    <option value="dx+/UI_CardChara_050703">カメ</option>
+                    <option value="dx+/UI_CardChara_050704">タイ</option>
+                    <option value="dx+/UI_CardChara_050705">エリザビー</option>
+                    <option value="dx+/UI_CardChara_050801">ルイ</option>
+                    <option value="dx+/UI_CardChara_050802">
+                        ニック（悪魔憑き）
+                    </option>
+                    <option value="dx+/UI_CardChara_050803">ティノ</option>
+                    <option value="dx+/UI_CardChara_050804">エレノラ</option>
+                    <option value="fes/UI_CardChara_300101">
+                        ラズ（ふぇすてぃばる）
+                    </option>
+                    <option value="fes/UI_CardChara_300102">
+                        シフォン（ふぇすてぃばる）
+                    </option>
+                    <option value="fes/UI_CardChara_300103">
+                        ソルト（ふぇすてぃばる）
+                    </option>
+                    <option value="fes/UI_CardChara_300104">
+                        でらっくま（ふぇすてぃばる）
+                    </option>
+                    <option value="fes/UI_CardChara_300105">
+                        らいむっくま（ふぇすてぃばる）
+                    </option>
+                    <option value="fes/UI_CardChara_300106">
+                        れもんっくま（ふぇすてぃばる）
+                    </option>
+                    <option value="fes/UI_CardChara_300201">黒姫</option>
+                    <option value="fes/UI_CardChara_300202">紫黒</option>
+                    <option value="fes/UI_CardChara_300203">高麗</option>
+                    <option value="fes/UI_CardChara_300204">濡羽</option>
+                    <option value="fes/UI_CardChara_300205">イーシュ</option>
+                    <option value="fes/UI_CardChara_300301">アカツキ</option>
+                    <option value="fes/UI_CardChara_300302">コハク</option>
+                    <option value="fes/UI_CardChara_300303">暁</option>
+                    <option value="fes/UI_CardChara_300304">ノア</option>
+                    <option value="fes/UI_CardChara_300305">ソウ</option>
+                    <option value="fes/UI_CardChara_300401">ディアン</option>
+                    <option value="fes/UI_CardChara_300402">レヌス</option>
+                    <option value="fes/UI_CardChara_300403">ルフタ</option>
+                    <option value="fes/UI_CardChara_300404">ヴァハ</option>
+                    <option value="fes/UI_CardChara_300405">ブリギット</option>
+                    <option value="fes/UI_CardChara_300601">アウル</option>
+                    <option value="fes/UI_CardChara_300602">
+                        ヒュド・ルー
+                    </option>
+                    <option value="fes/UI_CardChara_300603">エリー</option>
+                    <option value="fes/UI_CardChara_300604">マスティマ</option>
+                    <option value="fes/UI_CardChara_300605">
+                        バイロン(堕天使)
+                    </option>
+                    <option value="fes+/UI_CardChara_350101">
+                        ラズ（ツムギボシ）
+                    </option>
+                    <option value="fes+/UI_CardChara_350102">
+                        シフォン（ツムギボシ）
+                    </option>
+                    <option value="fes+/UI_CardChara_350103">
+                        ソルト（ツムギボシ）
+                    </option>
+                    <option value="fes+/UI_CardChara_350104">
+                        ダンディ・ダン（ツムギボシ）
+                    </option>
+                    <option value="fes+/UI_CardChara_350105">
+                        エリザビー（ツムギボシ）
+                    </option>
+                    <option value="fes+/UI_CardChara_350301">アカツキ</option>
+                    <option value="fes+/UI_CardChara_350302">
+                        ノア（過去）
+                    </option>
+                    <option value="fes+/UI_CardChara_350303">コハク</option>
+                    <option value="fes+/UI_CardChara_350304">
+                        アカツキ（正装）
+                    </option>
+                    <option value="fes+/UI_CardChara_350401">アスク</option>
+                    <option value="fes+/UI_CardChara_350402">led</option>
+                    <option value="fes+/UI_CardChara_350403">エムブラ</option>
+                    <option value="fes+/UI_CardChara_350601">
+                        ルイ（幼少期）
+                    </option>
+                    <option value="fes+/UI_CardChara_350602">sdニック</option>
+                    <option value="fes+/UI_CardChara_350603">sdブラット</option>
+                    <option value="fes+/UI_CardChara_350604">sdアウル</option>
+                    <option value="fes+/UI_CardChara_350605">
+                        ニック＆ブラット
+                    </option>
+                    <option value="sp/UI_CardChara_100101">らいむっくま</option>
+                    <option value="sp/UI_CardChara_100102">れもんっくま</option>
+                    <option value="sp/UI_CardChara_100103">でらっくま</option>
+                    <option value="sp/UI_CardChara_100104">らん</option>
+                    <option value="sp/UI_CardChara_100105">どりー</option>
+                    <option value="sp/UI_CardChara_100301">壱王</option>
+                    <option value="sp/UI_CardChara_100302">仁王</option>
+                    <option value="sp/UI_CardChara_100303">雷天</option>
+                    <option value="sp/UI_CardChara_100304">焔天</option>
+                    <option value="sp/UI_CardChara_100305">黒姫</option>
+                    <option value="sp/UI_CardChara_100401">モモ</option>
+                    <option value="sp/UI_CardChara_100402">アカツキ</option>
+                    <option value="sp/UI_CardChara_100403">ナノハ</option>
+                    <option value="sp/UI_CardChara_100404">ソウ</option>
+                    <option value="sp/UI_CardChara_100405">ノア</option>
+                    <option value="sp/UI_CardChara_100501">百合咲ミカ</option>
+                    <option value="sp/UI_CardChara_100502">八剱月アルマ</option>
+                    <option value="sp/UI_CardChara_100503">白銅寺アズリ</option>
+                    <option value="sp/UI_CardChara_100504">白法院ラグ</option>
+                    <option value="sp/UI_CardChara_100505">
+                        八剱月アルマ（堕天）
+                    </option>
+                    <option value="sp/UI_CardChara_100601">ロー</option>
+                    <option value="sp/UI_CardChara_100602">マリー</option>
+                    <option value="sp/UI_CardChara_100603">ハンナ</option>
+                    <option value="sp/UI_CardChara_100604">トリスタン</option>
+                    <option value="sp/UI_CardChara_100605">
+                        クレメンス（悪魔）
+                    </option>
+                    <option value="sp+/UI_CardChara_150101">乙姫</option>
+                    <option value="sp+/UI_CardChara_150102">ラズ</option>
+                    <option value="sp+/UI_CardChara_150103">シフォン</option>
+                    <option value="sp+/UI_CardChara_150104">ソルト</option>
+                    <option value="sp+/UI_CardChara_150105">しゃま</option>
+                    <option value="sp+/UI_CardChara_150106">みるく</option>
+                    <option value="sp+/UI_CardChara_150201">
+                        アウル(幼少期)
+                    </option>
+                    <option value="sp+/UI_CardChara_150202">トリスタン</option>
+                    <option value="sp+/UI_CardChara_150203">アウル</option>
+                    <option value="sp+/UI_CardChara_150301">モモ</option>
+                    <option value="sp+/UI_CardChara_150302">トキヤ</option>
+                    <option value="sp+/UI_CardChara_150303">コハク</option>
+                    <option value="sp+/UI_CardChara_150304">ノア</option>
+                    <option value="sp+/UI_CardChara_150305">アカツキ</option>
+                    <option value="sp+/UI_CardChara_150401">ナノ</option>
+                    <option value="sp+/UI_CardChara_150402">アサド</option>
+                    <option value="sp+/UI_CardChara_150403">ローヴェ</option>
+                    <option value="sp+/UI_CardChara_150404">ドメニカ</option>
+                    <option value="sp+/UI_CardChara_150405">テルス</option>
+                    <option value="sp+/UI_CardChara_150501">ニギ</option>
+                    <option value="sp+/UI_CardChara_150502">シンキョウ</option>
+                    <option value="sp+/UI_CardChara_150503">メノウ</option>
+                    <option value="sp+/UI_CardChara_150504">アマヒコ</option>
+                    <option value="sp+/UI_CardChara_150505">オオヒメ</option>
+                    <option value="uni/UI_CardChara_200101">
+                        でらっくま（ゆにばーす）
+                    </option>
+                    <option value="uni/UI_CardChara_200102">
+                        れもんっくま（ゆにばーす）
+                    </option>
+                    <option value="uni/UI_CardChara_200103">
+                        らいむっくま（ゆにばーす）
+                    </option>
+                    <option value="uni/UI_CardChara_200104">
+                        しゃま（ゆにばーす）
+                    </option>
+                    <option value="uni/UI_CardChara_200105">
+                        みるく（ゆにばーす）
+                    </option>
+                    <option value="uni/UI_CardChara_200201">ルキ</option>
+                    <option value="uni/UI_CardChara_200202">ラキ</option>
+                    <option value="uni/UI_CardChara_200203">アトロ</option>
+                    <option value="uni/UI_CardChara_200204">クロト</option>
+                    <option value="uni/UI_CardChara_200205">ルシファー</option>
+                    <option value="uni/UI_CardChara_200301">濡羽</option>
+                    <option value="uni/UI_CardChara_200302">高麗</option>
+                    <option value="uni/UI_CardChara_200303">黒橡</option>
+                    <option value="uni/UI_CardChara_200304">赤墨</option>
+                    <option value="uni/UI_CardChara_200305">紫黒</option>
+                    <option value="uni/UI_CardChara_200401">リズ</option>
+                    <option value="uni/UI_CardChara_200402">シュトルツ</option>
+                    <option value="uni/UI_CardChara_200403">
+                        リヒティカイト
+                    </option>
+                    <option value="uni/UI_CardChara_200404">
+                        エーペルージュ
+                    </option>
+                    <option value="uni/UI_CardChara_200405">アシッド</option>
+                    <option value="uni/UI_CardChara_200601">エリザ</option>
+                    <option value="uni/UI_CardChara_200602">カイン</option>
+                    <option value="uni/UI_CardChara_200603">ジャック</option>
+                    <option value="uni/UI_CardChara_200604">
+                        アナスタシア
+                    </option>
+                    <option value="uni/UI_CardChara_200605">
+                        ラルフ(悪魔憑き)
+                    </option>
+                    <option value="uni+/UI_CardChara_250101">ちびみるく</option>
+                    <option value="uni+/UI_CardChara_250102">sdしゃま</option>
+                    <option value="uni+/UI_CardChara_250103">sdみるく</option>
+                    <option value="uni+/UI_CardChara_250104">金の牛乳瓶</option>
+                    <option value="uni+/UI_CardChara_250105">joker</option>
+                    <option value="uni+/UI_CardChara_250201">家菊</option>
+                    <option value="uni+/UI_CardChara_250202">橘花</option>
+                    <option value="uni+/UI_CardChara_250203">黒桜</option>
+                    <option value="uni+/UI_CardChara_250204">紫藤</option>
+                    <option value="uni+/UI_CardChara_250205">藪椿</option>
+                    <option value="uni+/UI_CardChara_250301">百合咲ミカ</option>
+                    <option value="uni+/UI_CardChara_250302">
+                        白銅寺アズリ
+                    </option>
+                    <option value="uni+/UI_CardChara_250303">白法院ラグ</option>
+                    <option value="uni+/UI_CardChara_250304">
+                        兎花宮イオフィ
+                    </option>
+                    <option value="uni+/UI_CardChara_250305">庭白ガヴィ</option>
+                    <option value="uni+/UI_CardChara_250401">リズ</option>
+                    <option value="uni+/UI_CardChara_250402">アシッド</option>
+                    <option value="uni+/UI_CardChara_250403">
+                        ゲルプテディ
+                    </option>
+                    <option value="uni+/UI_CardChara_250404">
+                        オーランジェット
+                    </option>
+                    <option value="uni+/UI_CardChara_250405">w?k?y?</option>
+                    <option value="uni+/UI_CardChara_250601">クレメンス</option>
+                    <option value="uni+/UI_CardChara_250602">バイロン</option>
+                    <option value="uni+/UI_CardChara_250603">エリー</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- 好友码输入框 -->
+        <div class="input-container">
+            <div class="label">好友码</div>
+            <input
+                type="text"
+                id="friend_code"
+                placeholder="请输入好友码"
+                maxlength="13"
+                oninput="this.value = this.value.replace(/[^0-9\-]/g, ''); updateCookie('friend_code', this.value)"
+            />
+        </div>
+
+        <!-- DXpass 类型选择 -->
+        <div class="input-container">
+            <div class="label">DX Pass 类型</div>
+            <select
+                id="dxpass_type"
+                onchange="updateCookie('dxpass_type', this.value)"
+            >
+                <option value="" disabled selected>请选择 DX Pass 类型</option>
+                <option value="GOLD">GOLD</option>
+                <option value="FREEDOM">FREEDOM</option>
+                <option value="BRONZE">BRONZE</option>
+                <option value="SILVER">SILVER</option>
+            </select>
+        </div>
+
+        <!-- DXpass 背景 -->
+        <div class="input-container">
+            <div class="label">DX Pass 背景</div>
+            <select
+                id="dxpass_bg"
+                onchange="updateCookie('dxpass_bg', this.value)"
+            >
+                <option value="" disabled selected>请选择 DX Pass 背景</option>
+                <option value="BUD">BUD</option>
+                <option value="FES">FES</option>
+                <option value="SPL">SPL</option>
+                <option value="UNI">UNI</option>
+            </select>
+        </div>
+
+        <!-- 卡片号码 -->
+        <div class="input-container">
+            <div class="label">卡片号码</div>
+            <input
+                type="text"
+                id="card_number"
+                placeholder="请输入卡片号码"
+                maxlength="20"
+                oninput="this.value = this.value.replace(/[^0-9\-]/g, ''); updateCookie('card_number', this.value)"
+            />
+        </div>
+
+        <!-- 卡片版本号 -->
+        <div class="input-container">
+            <div class="label">卡片版本号</div>
+            <div class="version-inputs">
+                <span>1.</span>
+                <input
+                    type="text"
+                    id="card_version_part1"
+                    placeholder="前半部分"
+                    maxlength="2"
+                    oninput="this.value = this.value.replace(/[^0-9\-]/g, ''); updateVersionCookie()"
+                />
+                <span>-</span>
+                <input
+                    type="text"
+                    id="card_version_part2"
+                    placeholder="后半部分"
+                    maxlength="4"
+                    oninput="this.value = this.value.replace(/[^0-9\-]/g, ''); updateVersionCookie()"
+                />
+            </div>
+        </div>
+
+        <button id="button">返回</button>
+
+        <script>
+            // 更新 Cookie 函数
+            function updateCookie(name, value) {
+                document.cookie =
+                    name +
+                    "=" +
+                    encodeURIComponent(value) +
+                    "; path=/; max-age=31536000";
+            }
+
+            // 更新伙伴 Cookie
+            function updateFriendCookie() {
+                const friendSelect = document.getElementById("friend-select");
+                const selectedFriend = friendSelect.value;
+                const friendName =
+                    friendSelect.options[friendSelect.selectedIndex].text;
+
+                document.cookie =
+                    "friend=" +
+                    encodeURIComponent(selectedFriend) +
+                    "; path=/; max-age=31536000";
+                document.cookie =
+                    "friend_name=" +
+                    encodeURIComponent(friendName) +
+                    "; path=/; max-age=31536000";
+            }
+
+            // 切换输入框显示状态
+            function toggleInput() {
+                const df_username_switch =
+                    document.getElementById("df_username_switch");
+                const inputContainer =
+                    document.getElementById("inputContainer");
+                const dfTokenContainer =
+                    document.getElementById("dfTokenContainer");
+
+                if (df_username_switch.checked) {
+                    inputContainer.style.display = "none";
+                    dfTokenContainer.style.display = "block";
+                } else {
+                    inputContainer.style.display = "block";
+                    dfTokenContainer.style.display = "none";
+                }
+                saveSwitchState();
+            }
+
+            // 保存开关状态到 Cookie
+            function saveSwitchState() {
+                const df_username_switch =
+                    document.getElementById("df_username_switch");
+                document.cookie =
+                    "df_username_switch=" +
+                    (df_username_switch.checked ? "1" : "0") +
+                    "; path=/; max-age=31536000";
+            }
+
+            // 更新版本信息 Cookie
+            function updateVersionCookie() {
+                const part1 =
+                    document.getElementById("card_version_part1").value;
+                const part2 =
+                    document.getElementById("card_version_part2").value;
+                document.cookie =
+                    "card_version=" +
+                    encodeURIComponent("1." + part1 + "-" + part2) +
+                    "; path=/; max-age=31536000";
+            }
+
+            // 加载并设置页面设置（包括开关和输入框的值）
+            function loadSettings() {
+                const cookies = document.cookie.split("; ");
+                let dfSwitchLoaded = false;
+                let qrSwitchLoaded = false;
+
+                cookies.forEach((cookie) => {
+                    const [name, value] = cookie.split("=");
+                    if (name === "df_username_switch") {
+                        const df_username_switch =
+                            document.getElementById("df_username_switch");
+                        df_username_switch.checked = value === "1";
+                        dfSwitchLoaded = true;
+                        toggleInput();
+                    } else if (name === "name") {
+                        document.getElementById("name").value =
+                            decodeURIComponent(value);
+                    } else if (name === "rating") {
+                        document.getElementById("rating").value =
+                            decodeURIComponent(value);
+                    } else if (name === "df_username") {
+                        document.getElementById("df_username").value =
+                            decodeURIComponent(value);
+                    } else if (name === "friend") {
+                        document.getElementById("friend-select").value =
+                            decodeURIComponent(value);
+                    } else if (name === "friend_code") {
+                        document.getElementById("friend_code").value =
+                            decodeURIComponent(value);
+                    } else if (name === "dxpass_type") {
+                        document.getElementById("dxpass_type").value =
+                            decodeURIComponent(value);
+                    } else if (name === "dxpass_bg") {
+                        document.getElementById("dxpass_bg").value =
+                            decodeURIComponent(value);
+                    } else if (name === "card_number") {
+                        document.getElementById("card_number").value =
+                            decodeURIComponent(value);
+                    } else if (name === "card_version") {
+                        const parts = decodeURIComponent(value).split(/[.-]/);
+                        if (parts.length === 3) {
+                            document.getElementById(
+                                "card_version_part1"
+                            ).value = parts[1];
+                            document.getElementById(
+                                "card_version_part2"
+                            ).value = parts[2];
+                        }
+                    } else if (name === "qr_content") {
+                        document.getElementById("qr_content").value =
+                            decodeURIComponent(value);
+                    }
+                });
+
+                // 如果开关状态没有加载，则设置默认状态
+                if (!dfSwitchLoaded) {
+                    document.getElementById(
+                        "df_username_switch"
+                    ).checked = false;
+                    saveSwitchState();
+                    document.getElementById("inputContainer").style.display =
+                        "block";
+                }
+            }
+            document.getElementById('button').onclick = function() {
+            window.history.back();
+        };
+
+            window.onload = loadSettings;
+        </script>
+    </body>
+</html>
