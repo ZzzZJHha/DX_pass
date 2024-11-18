@@ -14,7 +14,7 @@
 ### 安装步骤
 1. 拉取项目所有文件：
    ```bash
-   git clone https://github.com/your-repo/DX_pass.git
+   git clone https://github.com/ZzzZJHha/DX_pass.git
    cd DX_pass
    ```
 2. 安装依赖：
